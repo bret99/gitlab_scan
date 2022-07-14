@@ -81,6 +81,7 @@ def get_users_IPs_ipgeolocation(users_status):
             except KeyError:
                 item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
                 items_to_print.append(item_to_list)
+                users_IPs_output(users_status, items_to_print)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
 
         users_IPs_output(users_status, items_to_print)
@@ -156,6 +157,7 @@ def get_users_IPs_abuseipdb(users_status):
             except KeyError:
                 item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
                 items_to_print.append(item_to_list)
+                users_IPs_output(users_status, items_to_print)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
 
         users_IPs_output(users_status, items_to_print)
