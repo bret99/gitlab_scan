@@ -3,6 +3,6 @@ Extremely useful cybersecurity oriented framework for Gitlab scanning. One inclu
 
 One should write the values in access_tokens.py.
 
-To get geolocation data [users, runners] one should get access tokens in https://abuseipdb.com or https://ipgeolocation.io. One should keep in mind the limits to API requests.
+To get geolocation data [users, runners] one should get access tokens in https://abuseipdb.com or https://ipgeolocation.io. One should keep in mind the limits to API requests. With empty values of abuseipdb_token and ipgeolocation_token one will get users/runners IPs only.
 
 Run command: python3 gitlab_scan.py
