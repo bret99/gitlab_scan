@@ -151,7 +151,7 @@ def get_users_IPs_abuseipdb(users_status):
                 user_current_sign_in_ip = IPs["current_sign_in_ip"]
                 response = requests.request(method='GET', url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': user_current_sign_in_ip, 'maxAgeInDays': '90'})
                 decodedResponse = json.loads(response.text)
-                item_to_list = ("user_id: {0} => {1} [country: {2} domain: {3} ispm: {4} usage_type: {5}]".format(item, IPs["current_sign_in_ip"], decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType']))
+                item_to_list = ("user_id: {0} => {1} [country: {2} domain: {3} isp: {4} usage_type: {5}]".format(item, IPs["current_sign_in_ip"], decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType']))
                 items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5}\033[1;00m ]\033[1;00m".format(item, IPs["current_sign_in_ip"], decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType']))
             except KeyError:
@@ -189,7 +189,7 @@ def get_users_IPs_abuseipdb(users_status):
                 user_current_sign_in_ip = IPs["current_sign_in_ip"]
                 response = requests.request(method='GET', url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': user_current_sign_in_ip, 'maxAgeInDays': '90'})
                 decodedResponse = json.loads(response.text)
-                item_to_list = ("user_id: {0} => {1} [country: {2} domain: {3} ispm: {4} usage_type: {5}]".format(item, IPs["current_sign_in_ip"], decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType']))
+                item_to_list = ("user_id: {0} => {1} [country: {2} domain: {3} isp: {4} usage_type: {5}]".format(item, IPs["current_sign_in_ip"], decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType']))
                 items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5}\033[1;00m ]\033[1;00m".format(item, IPs["current_sign_in_ip"], decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType']))
             except KeyError:
