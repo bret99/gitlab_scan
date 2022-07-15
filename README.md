@@ -1,5 +1,5 @@
 # gitlab_scan
-Extremely useful cybersecurity oriented framework for Gitlab scanning. One includes 14 modules and may be enhanced by everyone!
+Extremely useful cybersecurity oriented framework for Gitlab scanning. One includes 15 modules and may be enhanced by everyone!
 
 One should write the values in access_tokens.py.
 
