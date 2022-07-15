@@ -21,11 +21,11 @@ def get_runners_IPs():
         geolocation_choose = input("Choose IP to geolocation reverse service (\033[1;95mabuseipdb\033[1;00m, \033[1;96mipgeolocation\033[1;00m): ")
         if geolocation_choose == "abuseipdb":
             if abuseipdb_token == "":
-                print("\nOne should write correct value to \033[1;95mabuseipdb_token \033[1;00min \033[1;95maccess_token.py to get IPs geolocations\033[1;00m!")
+                print("\nOne should write correct value to \033[1;95mabuseipdb_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocationsm!")
             get_users_IPs_abuseipdb()
         elif geolocation_choose == "ipgeolocation":
             if ipgeolocation_token == "":
-                print("\nOne should write correct value to \033[1;95mipgeolocation_token \033[1;00min \033[1;95maccess_token.py to get IPs geolocations\033[1;00m!")
+                print("\nOne should write correct value to \033[1;96mipgeolocation_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
             get_users_IPs_ipgeolocation()
         else:
             sys.exit("\033[1;93mWrong input!\033[1;00m")
