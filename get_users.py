@@ -33,12 +33,12 @@ def get_users():
                 item_counter = 0
                 for item in users:
                     try:
-                        item = "id: " + str(users[item_counter]["id"]) + " username: " + users[item_counter]["username"] + " name: " + users[item_counter]["name"] + " state: " + users[item_counter]["state"] + " web_url: " + users[item_counter]["web_url"]
+                        item = "id: " + str(users[item_counter]["id"]) + " username: " + str(users[item_counter]["username"]) + " name: " + str(users[item_counter]["name"]) + " email: " + str(users[item_counter]["email"]) + " state: " + str(users[item_counter]["state"]) + " web_url: " + str(users[item_counter]["web_url"]) + " current_sign_in_at " + str(users[item_counter]["current_sign_in_at"])
                         users_list.append(item)
-                        item_to_print = "\033[1;94mid\033[1;00m: \033[1;92m" + str(users[item_counter]["id"]) + "\033[1;94m username\033[1;00m: \033[1;92m" + users[item_counter]["username"] + "\033[1;94m name\033[1;00m: \033[1;92m" + users[item_counter]["name"] + "\033[1;94m state\033[1;00m: \033[1;92m" + users[item_counter]["state"] + "\033[1;94m web_url\033[1;00m: \033[1;92m" + users[item_counter]["web_url"] + "\033[1;00m"
+                        item_to_print = "\033[1;94mid\033[1;00m: \033[1;92m" + str(users[item_counter]["id"]) + "\033[1;94m username\033[1;00m: \033[1;92m" + users[item_counter]["username"] + "\033[1;94m name\033[1;00m: \033[1;92m" + users[item_counter]["name"] + "\033[1;94m email\033[1;00m: \033[1;92m" + users[item_counter]["email"]  + "\033[1;94m state\033[1;00m: \033[1;92m" + str(users[item_counter]["state"]) + "\033[1;94m web_url\033[1;00m: \033[1;92m" + str(users[item_counter]["web_url"]) + "\033[1;94m current_sign_in_at\033[1;00m: \033[1;92m" + str(users[item_counter]["current_sign_in_at"]) + "\033[1;00m"
                         users_list_to_print.append(item_to_print)
                     except KeyError:
-                        item = "id: " + str(users[item_counter]["id"]) + " username: " + users[item_counter]["username"] + " name: " + users[item_counter]["name"] + " state: " + users[item_counter]["state"] + " web_url: " + users[item_counter]["web_url"]
+                        item = "id: " + str(users[item_counter]["id"]) + " username: " + str(users[item_counter]["username"]) + " name: " + str(users[item_counter]["name"]) + " email: " + str(users[item_counter]["email"]) + " state: " + str(users[item_counter]["state"]) + " web_url: " + str(users[item_counter]["web_url"]) + " current_sign_in_at " + str(users[item_counter]["current_sign_in_at"])
                         users_list.append(item)
                     item_counter += 1
                 time.sleep(0.1)
@@ -65,12 +65,12 @@ def get_users():
                 item_counter = 0
                 for item in users:
                     try:
-                        item = "id: " + str(users[item_counter]["id"]) + " username: " + users[item_counter]["username"] + " name: " + users[item_counter]["name"] + " state: " + users[item_counter]["state"] + " web_url: " + users[item_counter]["web_url"]
+                        item = "id: " + str(users[item_counter]["id"]) + " username: " + str(users[item_counter]["username"]) + " name: " + str(users[item_counter]["name"]) + " email: " + str(users[item_counter]["email"]) + " state: " + str(users[item_counter]["state"]) + " web_url: " + str(users[item_counter]["web_url"]) + " current_sign_in_at " + str(users[item_counter]["current_sign_in_at"])
                         users_list.append(item) 
-                        item_to_print = "\033[1;94mid\033[1;00m: \033[1;92m" + str(users[item_counter]["id"]) + "\033[1;94m username\033[1;00m: \033[1;92m" + users[item_counter]["username"] + "\033[1;94m name\033[1;00m: \033[1;92m" + users[item_counter]["name"] + "\033[1;94m state\033[1;00m: \033[1;92m" + users[item_counter]["state"] + "\033[1;94m web_url\033[1;00m: \033[1;92m" + users[item_counter]["web_url"] + "\033[1;00m"
+                        item_to_print = "\033[1;94mid\033[1;00m: \033[1;92m" + str(users[item_counter]["id"]) + "\033[1;94m username\033[1;00m: \033[1;92m" + str(users[item_counter]["username"]) + "\033[1;94m name\033[1;00m: \033[1;92m" + str(users[item_counter]["name"]) + "\033[1;94m email\033[1;00m: \033[1;92m" + str(users[item_counter]["email"]) + "\033[1;94m state\033[1;00m: \033[1;92m" + str(users[item_counter]["state"]) + "\033[1;94m web_url\033[1;00m: \033[1;92m" + str(users[item_counter]["web_url"]) + "\033[1;94m current_sign_in_at\033[1;00m: \033[1;92m" + str(users[item_counter]["current_sign_in_at"]) + "\033[1;00m"
                         users_list_to_print.append(item_to_print)
                     except KeyError:
-                        item = "id: " + str(users[item_counter]["id"]) + " username: " + users[item_counter]["username"] + " name: " + users[item_counter]["name"] + " state: " + users[item_counter]["state"] + " web_url: " + users[item_counter]["web_url"]
+                        item = "id: " + str(users[item_counter]["id"]) + " username: " + str(users[item_counter]["username"]) + " name: " + str(users[item_counter]["name"]) + " email: " + str(users[item_counter]["email"]) + " state: " + str(users[item_counter]["state"]) + " web_url: " + str(users[item_counter]["web_url"]) + " current_sign_in_at " + str(users[item_counter]["current_sign_in_at"])
                         users_list.append(item)
                     item_counter += 1
                 time.sleep(0.1)
@@ -96,4 +96,3 @@ def get_users():
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
     except KeyboardInterrupt:
         print("\033[1;93m\nResults not saved!\033[1;00m")
-
