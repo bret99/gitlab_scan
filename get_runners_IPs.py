@@ -36,7 +36,7 @@ def get_runners_IPs():
     except (InvalidURL, MissingSchema):
         print("\033[1;93mCheck one's Gitlab server link in access_tokens.py is correct\033[1;00m")
     except KeyError:
-        print("\033[1;93mCheck one's Gitlab/AbuseIPDB access tokens in \033[1;95maccess_tokens.py \033[1;93mare correct\033[1;00m")
+        print("\033[1;93mCheck one's Gitlab access tokens in \033[1;95maccess_tokens.py \033[1;93mare correct\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
     except KeyboardInterrupt:
