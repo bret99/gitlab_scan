@@ -76,7 +76,7 @@ def get_user_info():
         print("\033[1;93mCheck one's Gitlab server link in access_tokens.py is correct\033[1;00m")
     except KeyError:
         print("\033[1;93mCheck one's Gitlab access token in \033[1;95maccess_tokens.py \033[1;93mis correct\033[1;00m")
-        print("\033[1;93mOr namspace ID is not correct\033[1;00m")
+        print("\033[1;93mOr user ID is not correct\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
     except KeyboardInterrupt:
