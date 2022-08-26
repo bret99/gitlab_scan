@@ -48,10 +48,7 @@ def get_users():
             
             if not os.path.exists("{}/reports".format(os.getcwd())):
                 os.mkdir("{}/reports".format(os.getcwd()))
-            with open("{}/reports/users_info.txt".format(os.getcwd()), 'a') as output:
-                output.write('USERS {} INFO => \n'.format(users_status))
-                for row in set(users_list):
-                    output.write(str(row) + '\n')
+            usrs_output(users_status=users_status)
         
         else:
             print("\033[1;90m\nCollecting data...\033[1;00m")
@@ -80,10 +77,7 @@ def get_users():
        
             if not os.path.exists("{}/reports".format(os.getcwd())):
                 os.mkdir("{}/reports".format(os.getcwd()))
-            with open("{}/reports/users_info.txt".format(os.getcwd()), 'a') as output:
-                output.write('USERS {} INFO => \n'.format(users_status))
-                for row in set(users_list):
-                    output.write(str(row) + '\n')
+            usrs_output(users_status=users_status)
 
         print("\n{0} users amount is \033[1;94m{1}\033[1;00m".format(users_status, len(set(users_list))))
         print("\nOne can find results in \033[1;95m{}/reports/users_info.txt\033[1;00m\n".format(os.getcwd()))
@@ -94,5 +88,12 @@ def get_users():
         print("\033[1;93mCheck one's Gitlab access token in \033[1;95maccess_tokens.py \033[1;93mis correct\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
+        usrs_output(users_status)
     except KeyboardInterrupt:
         print("\033[1;93m\nResults not saved!\033[1;00m")
+
+def usrs_output(users_status):
+    with open("{}/reports/users_info.txt".format(os.getcwd()), 'a') as output:
+        output.write('USERS {} INFO => \n'.format(users_status))
+        for row in set(users_list):
+            output.write(str(row) + '\n')
