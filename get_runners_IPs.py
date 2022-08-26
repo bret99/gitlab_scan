@@ -22,11 +22,11 @@ def get_runners_IPs():
         if geolocation_choose == "abuseipdb":
             if abuseipdb_token == "":
                 print("\nOne should write correct value to \033[1;95mabuseipdb_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocationsm!")
-            get_users_IPs_abuseipdb()
+            get_users_IPs_abuseipdb(geolocation_choose=geolocation_choose)
         elif geolocation_choose == "ipgeolocation":
             if ipgeolocation_token == "":
                 print("\nOne should write correct value to \033[1;96mipgeolocation_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
-            get_users_IPs_ipgeolocation()
+            get_users_IPs_ipgeolocation(geolocation_choose=geolocation_choose)
         else:
             sys.exit("\033[1;93mWrong input!\033[1;00m")
 
@@ -36,13 +36,14 @@ def get_runners_IPs():
     except (InvalidURL, MissingSchema):
         print("\033[1;93mCheck one's Gitlab server link in access_tokens.py is correct\033[1;00m")
     except KeyError:
-        print("\033[1;93mCheck one's Gitlab access tokens in \033[1;95maccess_tokens.py \033[1;93mare correct\033[1;00m")
+        print("\033[1;93mCheck one's Gitlab/AbuseIPDB access tokens in \033[1;95maccess_tokens.py \033[1;93mare correct\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
+        runners_IPs_output(runners_IPs_info, geolocation_choose)
     except KeyboardInterrupt:
         print("\033[1;93m\nResults not saved!\033[1;00m")
 
-def get_users_IPs_abuseipdb():
+def get_users_IPs_abuseipdb(geolocation_choose):
     print("\033[1;90m\nCollecting data...\033[1;00m")
     print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
     page_counter = 0
@@ -71,13 +72,12 @@ def get_users_IPs_abuseipdb():
             time.sleep(0.5)
         except KeyError:
             IP_to_list = IP 
-            print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
             runners_IPs_info.append(IP_to_list)
-            runners_IPs_output(runners_IPs_info)
+            print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
-    runners_IPs_output(runners_IPs_info)
+    runners_IPs_output(runners_IPs_info, geolocation_choose)
 
-def get_users_IPs_ipgeolocation():
+def get_users_IPs_ipgeolocation(geolocation_choose):
     print("\033[1;90m\nCollecting data...\033[1;00m")
     print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
     page_counter = 0
@@ -106,16 +106,15 @@ def get_users_IPs_ipgeolocation():
             time.sleep(0.5)
         except KeyError:
             IP_to_list = IP 
-            print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
             runners_IPs_info.append(IP_to_list)
-            runners_IPs_output(runners_IPs_info)
+            print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
-    runners_IPs_output(runners_IPs_info)
+    runners_IPs_output(runners_IPs_info, geolocation_choose)
 
-def runners_IPs_output(runners_IPs_info):
+def runners_IPs_output(runners_IPs_info, geolocation_choose):
     if not os.path.exists("{}/reports".format(os.getcwd())):
         os.mkdir("{}/reports".format(os.getcwd()))
-    with open("{}/reports/runners_IPs_info.txt".format(os.getcwd()), 'w') as output:
-        output.write('RUNNERS IPs INFO => \n')
+    with open("{}/reports/runners_IPs_info.txt".format(os.getcwd()), 'a') as output:
+        output.write('RUNNERS IPs {} INFO => \n'.format(geolocation_choose))
         for row in list(set(runners_IPs_info)):
             output.write(str(row) + '\n')
