@@ -45,11 +45,8 @@ def get_project_hooks():
                     
         if not os.path.exists("{}/reports".format(os.getcwd())):
             os.mkdir("{}/reports".format(os.getcwd()))
-        with open("{}/reports/project_hooks_info.txt".format(os.getcwd()), 'a') as output:
-            output.write('PROJECT {} HOOKS INFO => \n'.format(project_id))
-            for row in set(hooks_list):
-                output.write(str(row) + '\n')
-                
+        project_hooks_output(project_id=project_id)       
+
         print("\nProject hooks amount is \033[1;94m{}\033[1;00m".format(len(set(hooks_list))))
         print("\nOne can find results in \033[1;95m{}/reports/project_hooks_info.txt\033[1;00m".format(os.getcwd()))
    
@@ -60,5 +57,12 @@ def get_project_hooks():
         print("\033[1;93mOr project ID is not correct\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
+        project_hooks_output(project_id)
     except KeyboardInterrupt:
         print("\033[1;93m\nResults not saved!\033[1;00m")
+        
+def project_hooks_output(project_id):
+    with open("{}/reports/project_hooks_info.txt".format(os.getcwd()), 'a') as output:
+        output.write('PROJECT {} HOOKS INFO => \n'.format(project_id))
+        for row in set(hooks_list):
+            output.write(str(row) + '\n')
