@@ -72,7 +72,7 @@ def main_menu():
         else:
             sys.exit("\033[1;93mWrong input!\033[1;00m")
     except KeyboardInterrupt:
-        sys.exit()
+        sys.exit("\n")
 
 
 main_menu()
