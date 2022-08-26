@@ -28,11 +28,11 @@ def get_users_IPs():
         if geolocation_choose == "abuseipdb":
             if abuseipdb_token == "":
                 print("\nOne should write correct value to \033[1;95mabuseipdb_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
-            get_users_IPs_abuseipdb(users_status)
+            get_users_IPs_abuseipdb(users_status, geolocation_choose=geolocation_choose)
         elif geolocation_choose == "ipgeolocation":
             if ipgeolocation_token == "":
                 print("\nOne should write correct value to \033[1;96mipgeolocation_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
-            get_users_IPs_ipgeolocation(users_status)
+            get_users_IPs_ipgeolocation(users_status, geolocation_choose=geolocation_choose)
         else:
             sys.exit("\033[1;93mWrong input!\033[1;00m")
         print("\n{0} users amount is \033[1;94m{1}\033[1;00m".format(users_status, len(set(users_IDs))))
@@ -44,10 +44,11 @@ def get_users_IPs():
         print("\033[1;93mCheck one's Gitlab access token in \033[1;95maccess_tokens.py \033[1;93mis correct\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
+        users_IPs_output(users_status, items_to_print, geolocation_choose)
     except KeyboardInterrupt:
         print("\033[1;93m\nResults not saved!\033[1;00m")
 
-def get_users_IPs_ipgeolocation(users_status):
+def get_users_IPs_ipgeolocation(users_status, geolocation_choose):
     if users_status == "all":
         print("\033[1;90m\nCollecting data...\033[1;00m")
         print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
@@ -81,10 +82,9 @@ def get_users_IPs_ipgeolocation(users_status):
             except KeyError:
                 item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
                 items_to_print.append(item_to_list)
-                users_IPs_output(users_status, items_to_print)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
 
-        users_IPs_output(users_status, items_to_print)
+        users_IPs_output(users_status, items_to_print, geolocation_choose)
 
     else:
         print("\033[1;90m\nCollecting data...\033[1;00m")
@@ -118,12 +118,12 @@ def get_users_IPs_ipgeolocation(users_status):
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5}\033[1;00m \033[1;94misp\033[1;00m:\033[1;92m {6}\033[1;00m ]\033[1;00m".format(item, IPs["current_sign_in_ip"], decodedResponse['country_code2'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], decodedResponse['isp']))
             except KeyError:
                 item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-                print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
                 items_to_print.append(item_to_list)
+                print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
 
-        users_IPs_output(users_status, items_to_print)
+        users_IPs_output(users_status, items_to_print, geolocation_choose)
 
-def get_users_IPs_abuseipdb(users_status):
+def get_users_IPs_abuseipdb(users_status, geolocation_choose):
     if users_status == "all":
         print("\033[1;90m\nCollecting data...\033[1;00m")
         print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
@@ -157,10 +157,9 @@ def get_users_IPs_abuseipdb(users_status):
             except KeyError:
                 item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
                 items_to_print.append(item_to_list)
-                users_IPs_output(users_status, items_to_print)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
 
-        users_IPs_output(users_status, items_to_print)
+        users_IPs_output(users_status, items_to_print, geolocation_choose)
 
     else:
         print("\033[1;90m\nCollecting data...\033[1;00m")
@@ -197,12 +196,12 @@ def get_users_IPs_abuseipdb(users_status):
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
                 items_to_print.append(item_to_list)
 
-        users_IPs_output(users_status, items_to_print)
+        users_IPs_output(users_status, items_to_print, geolocation_choose)
 
-def users_IPs_output(users_status, items_to_print):
+def users_IPs_output(users_status, items_to_print, geolocation_choose):
     if not os.path.exists("{}/reports".format(os.getcwd())):
         os.mkdir("{}/reports".format(os.getcwd()))
     with open("{}/reports/users_IPs_info.txt".format(os.getcwd()), 'a') as output:
-        output.write('USERS {} IPs INFO => \n'.format(users_status))
+        output.write('USERS {0} IPs {1} INFO => \n'.format(users_status, geolocation_choose))
         for row in set(items_to_print):
             output.write(str(row) + '\n')
