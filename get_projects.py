@@ -45,11 +45,8 @@ def get_projects():
                     
         if not os.path.exists("{}/reports".format(os.getcwd())):
             os.mkdir("{}/reports".format(os.getcwd()))
-        with open("{}/reports/projects_info.txt".format(os.getcwd()), 'a') as output:
-            output.write('PROJECTS INFO => \n')
-            for row in set(projects_list):
-                output.write(str(row) + '\n')
-                
+        projects_output()
+
         print("\nProjects amount is \033[1;94m{}\033[1;00m".format(len(set(projects_list))))
         print("\nOne can find results in \033[1;95m{}/reports/projects_info.txt\033[1;00m".format(os.getcwd()))
    
@@ -60,5 +57,12 @@ def get_projects():
         print("\033[1;93mOr namspace ID is not correct\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
+        projects_output()
     except KeyboardInterrupt:
         print("\033[1;93m\nResults not saved!\033[1;00m")
+
+def projects_output():
+    with open("{}/reports/projects_info.txt".format(os.getcwd()), 'a') as output:
+        output.write('PROJECTS INFO => \n')
+        for row in set(projects_list):
+            output.write(str(row) + '\n')
