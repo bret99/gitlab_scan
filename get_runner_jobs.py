@@ -50,10 +50,7 @@ def get_runner_jobs():
 
             if not os.path.exists("{}/reports".format(os.getcwd())):
                 os.mkdir("{}/reports".format(os.getcwd()))
-            with open("{}/reports/runner_jobs_info.txt".format(os.getcwd()), 'a') as output:
-                output.write('RUNNER ID {} {} JOBS INFO => \n'.format(runner_id, jobs_status))
-                for row in set(jobs_list):
-                    output.write(str(row) + '\n')
+            runner_jobs_output(runner_id=runner_id, jobs_status=jobs_status)
 
         else:
             print("\033[1;90m\nCollecting data...\033[1;00m")
@@ -83,10 +80,7 @@ def get_runner_jobs():
     
             if not os.path.exists("{}/reports".format(os.getcwd())):
                 os.mkdir("{}/reports".format(os.getcwd()))
-            with open("{}/reports/runner_jobs_info.txt".format(os.getcwd()), 'a') as output:
-                output.write('RUNNER ID {} {} JOBS INFO => \n'.format(runner_id, jobs_status))
-                for row in set(jobs_list):
-                    output.write(str(row) + '\n')
+            runner_jobs_output(runner_id=runner_id, jobs_status=jobs_status)
                 
         print("\n{0} jobs amount is \033[1;94m{1}\033[1;00m".format(jobs_status, len(set(jobs_list))))
         print("\nOne can find results in \033[1;95m{}/reports/runner_jobs_info.txt\033[1;00m\n".format(os.getcwd()))
@@ -100,5 +94,12 @@ def get_runner_jobs():
         print("\033[1;93mRunner with such ID is absent\033[1;00m")
     except ConnectionError:
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
+        runner_jobs_output(runner_id, jobs_status)
     except KeyboardInterrupt:
         print("\033[1;93m\nResults not saved!\033[1;00m")
+
+def runner_jobs_output(runner_id, jobs_status):
+    with open("{}/reports/runner_jobs_info.txt".format(os.getcwd()), 'a') as output:
+        output.write('RUNNER ID {} {} JOBS INFO => \n'.format(runner_id, jobs_status))
+        for row in set(jobs_list):
+            output.write(str(row) + '\n')
