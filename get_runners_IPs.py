@@ -4,7 +4,7 @@ import os
 import sys
 import time
 import json
-from access_tokens import gitlab_access_token, gitlab_server_address, abuseipdb_token, ipgeolocation_token
+from access_tokens import gitlab_access_token, gitlab_server_address, abuseipdb_token, ipgeolocation_token, ipapi_token
 
 runners_IPs = []
 runners_IPs_info = []
@@ -18,7 +18,7 @@ def get_runners_IPs():
         elif "http" not in gitlab_server_address:
             print("\nOne should write correct value to \033[1;95mgitlab_server_address \033[1;00min \033[1;95maccess_token.py\033[1;00m!")
             sys.exit()
-        geolocation_choose = input("Choose IP to geolocation reverse service (\033[1;95mabuseipdb\033[1;00m, \033[1;96mipgeolocation\033[1;00m): ")
+        geolocation_choose = input("Choose IP to geolocation reverse service (\033[1;95mabuseipdb\033[1;00m, \033[1;96mipgeolocation, \033[1;92mipapi\033[1;00m): ")
         if geolocation_choose == "abuseipdb":
             if abuseipdb_token == "":
                 print("\nOne should write correct value to \033[1;95mabuseipdb_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocationsm!")
@@ -27,6 +27,10 @@ def get_runners_IPs():
             if ipgeolocation_token == "":
                 print("\nOne should write correct value to \033[1;96mipgeolocation_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
             get_users_IPs_ipgeolocation(geolocation_choose=geolocation_choose)
+        elif geolocation_choose == "ipapi":
+            if ipapi_token == "":
+                print("\nOne should write correct value to \033[1;96mipapi_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
+            get_users_IPs_ipapi(geolocation_choose=geolocation_choose)
         else:
             sys.exit("\033[1;93mWrong input!\033[1;00m")
 
@@ -102,6 +106,40 @@ def get_users_IPs_ipgeolocation(geolocation_choose):
             decodedResponse = response.json()
             print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['country_code2'], "\033[1;94mcity\033[1;00m:\033[1;92m", decodedResponse['city'], "\033[1;94mlatitude\033[1;00m:\033[1;92m", decodedResponse['latitude'], "\033[1;94mlongitude\033[1;00m:\033[1;92m",  decodedResponse['longitude'], "\033[1;94misp\033[1;00m:\033[1;92m", decodedResponse['isp'], "\033[1;00m")
             IP_to_list = IP + " country", decodedResponse['country_code2'], "city", decodedResponse['city'], "latitude",  decodedResponse['latitude'], "longitude", decodedResponse['longitude'], "isp", decodedResponse['isp']
+            runners_IPs_info.append(IP_to_list)
+            time.sleep(0.5)
+        except KeyError:
+            IP_to_list = IP 
+            runners_IPs_info.append(IP_to_list)
+            print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
+
+    runners_IPs_output(runners_IPs_info, geolocation_choose)
+
+def get_users_IPs_ipapi(geolocation_choose):
+    print("\033[1;90m\nCollecting data...\033[1;00m")
+    print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
+    page_counter = 0
+    while 1:
+        target_runners = requests.get("{0}/api/v4/runners/all?&per_page=100&page={1}".format(gitlab_server_address, page_counter), headers=headers)
+        runners = target_runners.json()
+        if len(runners) == 0:
+            break
+        item_counter = 0
+        for item in runners:
+            try:
+                runners_IPs.append(runners[item_counter]["ip_address"])
+            except KeyError:
+                pass
+            item_counter += 1
+        time.sleep(0.1)
+        page_counter += 1
+
+    for IP in set(runners_IPs):
+        try:
+            response = requests.get("http://api.ipapi.com/{0}?access_key={1}".format(IP, ipapi_token))
+            decodedResponse = response.json()
+            print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['country_code'], "\033[1;94mcity\033[1;00m:\033[1;92m", decodedResponse['city'], "\033[1;94mlatitude\033[1;00m:\033[1;92m", decodedResponse['latitude'], "\033[1;94mlongitude\033[1;00m:\033[1;92m",  decodedResponse['longitude'], "\033[1;00m")
+            IP_to_list = IP + " country", decodedResponse['country_code'], "city", decodedResponse['city'], "latitude",  decodedResponse['latitude'], "longitude", decodedResponse['longitude']
             runners_IPs_info.append(IP_to_list)
             time.sleep(0.5)
         except KeyError:
