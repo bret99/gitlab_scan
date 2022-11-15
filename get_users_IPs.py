@@ -4,13 +4,13 @@ import os
 import sys
 import json
 import time
-from access_tokens import gitlab_access_token, gitlab_server_address, abuseipdb_token, ipgeolocation_token
+from access_tokens import gitlab_access_token, gitlab_server_address, abuseipdb_token, ipgeolocation_token, ipapi_token
 
 users_IDs = []
 users_IPs = []
 items_to_print = []
 headers = {"PRIVATE-TOKEN": gitlab_access_token}
-geolocation_services = ["abuseipdb", "ipgeolocation"]
+geolocation_services = ["abuseipdb", "ipgeolocation", "ipapi"]
 status_list = ["admins", "active", "blocked", "external", "without_projects", "all"]
 
 def get_users_IPs():
@@ -24,7 +24,7 @@ def get_users_IPs():
         users_status = input("Enter users status (\033[1;95madmins\033[1;00m, \033[1;92mactive\033[1;00m, \033[1;91mblocked\033[1;00m, \033[;93mexternal\033[1;00m, \033[;90mwithout_projects\033[1;00m, all): ")
         if users_status not in status_list:
             sys.exit("\033[1;93mWrong input!\033[1;00m")
-        geolocation_choose = input("Choose IP to geolocation reverse service (\033[1;95mabuseipdb\033[1;00m, \033[1;96mipgeolocation\033[1;00m): ")
+        geolocation_choose = input("Choose IP to geolocation reverse service (\033[1;95mabuseipdb\033[1;00m, \033[1;96mipgeolocation\033[1;00m, \033[1;92mipapi\033[1;00m): ")
         if geolocation_choose == "abuseipdb":
             if abuseipdb_token == "":
                 print("\nOne should write correct value to \033[1;95mabuseipdb_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
@@ -33,13 +33,15 @@ def get_users_IPs():
             if ipgeolocation_token == "":
                 print("\nOne should write correct value to \033[1;96mipgeolocation_token \033[1;00min \033[1;95maccess_token.py \033[1;00mto get IPs geolocations!")
             get_users_IPs_ipgeolocation(users_status, geolocation_choose=geolocation_choose)
+        elif geolocation_choose == "ipapi":
+            get_users_IPs_ipapi(users_status, geolocation_choose=geolocation_choose)
         else:
             sys.exit("\033[1;93mWrong input!\033[1;00m")
         print("\n{0} users amount is \033[1;94m{1}\033[1;00m".format(users_status, len(set(users_IDs))))
         print("\nOne can find results in \033[1;95m{}/reports/users_IPs_info.txt\033[1;00m\n".format(os.getcwd()))
 
-    except (InvalidURL, MissingSchema):
-        print("\033[1;93mCheck one's Gitlab server link in access_tokens.py is correct\033[1;00m")
+#    except (InvalidURL, MissingSchema):
+#        print("\033[1;93mCheck one's Gitlab server link in access_tokens.py is correct\033[1;00m")
     except KeyError:
         print("\033[1;93mCheck one's Gitlab access token in \033[1;95maccess_tokens.py \033[1;93mis correct\033[1;00m")
     except ConnectionError:
@@ -195,6 +197,81 @@ def get_users_IPs_abuseipdb(users_status, geolocation_choose):
                 item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
                 items_to_print.append(item_to_list)
+
+        users_IPs_output(users_status, items_to_print, geolocation_choose)
+
+def get_users_IPs_ipapi(users_status, geolocation_choose):
+    if users_status == "all":
+        print("\033[1;90m\nCollecting data...\033[1;00m")
+        print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
+        page_counter = 0
+        while 1:
+            target_users = requests.get("{0}/api/v4/users?per_page=100&page={1}".format(gitlab_server_address, page_counter), headers=headers)
+            users = target_users.json()
+            if len(users) == 0:
+                break
+            item_counter = 0
+            for item in users:
+                try:
+                    item = str(users[item_counter]["id"])
+                    users_IDs.append(item)
+                except KeyError:
+                    users_IDs.append(item)
+                item_counter += 1
+            time.sleep(0.1)
+            page_counter += 1
+
+        for item in set(users_IDs):
+            try:
+                target_IPs = requests.get("{0}/api/v4/users/{1}".format(gitlab_server_address, item), headers=headers)
+                IPs = target_IPs.json()
+                user_current_sign_in_ip = IPs["current_sign_in_ip"]
+                response = requests.get("http://api.ipapi.com/{0}?access_key={1}".format(user_current_sign_in_ip, ipapi_token))
+                decodedResponse = response.json()
+                item_to_list = ("user_id: {0} => {1} [country: {2} city: {3} latitude: {4} longitude: {5} sip: {6}]".format(item, IPs["current_sign_in_ip"], decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], decodedResponse['connection']['isp']))
+                items_to_print.append(item_to_list)
+                print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5} \033[1;94misp\033[1;00m: \033[1;92m{6}\033[1;00m ]\033[1;00m".format(item, IPs["current_sign_in_ip"], decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], decodedResponse['connection']['isp']))
+            except KeyError:
+                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+                items_to_print.append(item_to_list)
+                print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
+
+        users_IPs_output(users_status, items_to_print, geolocation_choose)
+
+    else:
+        print("\033[1;90m\nCollecting data...\033[1;00m")
+        print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
+        page_counter = 0
+        while 1:
+            target_users = requests.get("{0}/api/v4/users?{1}=true&per_page=100&page={2}".format(gitlab_server_address, users_status, page_counter), headers=headers)
+            users = target_users.json()
+            if len(users) == 0:
+                break
+            item_counter = 0
+            for item in users:
+                try:
+                    item = str(users[item_counter]["id"])
+                    users_IDs.append(item)
+                except KeyError:
+                    users_IDs.append(item)
+                item_counter += 1
+            time.sleep(0.1)
+            page_counter += 1
+        
+        for item in set(users_IDs):
+            try:
+                target_IPs = requests.get("{0}/api/v4/users/{1}".format(gitlab_server_address, item), headers=headers)
+                IPs = target_IPs.json()
+                user_current_sign_in_ip = IPs["current_sign_in_ip"]
+                response = requests.get("http://api.ipapi.com/{0}?access_key={1}".format(user_current_sign_in_ip, ipapi_token))
+                decodedResponse = response.json()
+                item_to_list = ("user_id: {0} => {1} [country: {2} city: {3} latitude: {4} longitude: {5}]".format(item, IPs["current_sign_in_ip"], decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude']))
+                items_to_print.append(item_to_list)
+                print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5} ]\033[1;00m".format(item, IPs["current_sign_in_ip"], decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude']))
+            except KeyError:
+                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+                items_to_print.append(item_to_list)
+                print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, IPs["current_sign_in_ip"]))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
 
