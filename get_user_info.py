@@ -72,6 +72,8 @@ def get_user_info():
         print(" \033[1;94mcurrent_sign_in_ip\033[1;00m: \033[1;92m{}\033[1;00m".format(user["current_sign_in_ip"]))
         print(" \033[1;94mlast_sign_in_ip\033[1;00m: \033[1;92m{}\033[1;00m".format(user["last_sign_in_ip"]))
         print(" \033[1;94msign_in_count\033[1;00m: \033[1;92m{}\033[1;00m".format(user["sign_in_count"]))
+        print(" \033[1;94mnamespace_id\033[1;00m: \033[1;92m{}\033[1;00m".format(user["namespace_id"]))
+        print(" \033[1;94mcreated_by\033[1;00m: \033[1;92m{}\033[1;00m".format(user["created_by"]))
     except (InvalidURL, MissingSchema):
         print("\033[1;93mCheck one's Gitlab server link in access_tokens.py is correct\033[1;00m")
     except KeyError:
