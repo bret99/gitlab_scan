@@ -106,7 +106,7 @@ def get_project_info():
         print(" \033[1;94mbuild_git_strategy\033[1;00m: \033[1;92m{}\033[1;00m".format(project["build_git_strategy"]))
         print(" \033[1;94mbuild_timeout\033[1;00m: \033[1;92m{}\033[1;00m".format(project["build_timeout"]))
         print(" \033[1;94mauto_cancel_pending_pipelines\033[1;00m: \033[1;92m{}\033[1;00m".format(project["auto_cancel_pending_pipelines"]))
-        print(" \033[1;94mbuild_coverage_regex\033[1;00m: \033[1;92m{}\033[1;00m".format(project["build_coverage_regex"]))
+#        print(" \033[1;94mbuild_coverage_regex\033[1;00m: \033[1;92m{}\033[1;00m".format(project["build_coverage_regex"]))
         print(" \033[1;94mci_config_path\033[1;00m: \033[1;92m{}\033[1;00m".format(project["ci_config_path"]))
         shared_with_groups_counter = 0
         if len(project["shared_with_groups"]) == 0:
