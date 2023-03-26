@@ -4,7 +4,7 @@ import os
 import sys
 import time
 import json
-from access_tokens import gitlab_access_token, gitlab_server_address, abuseipdb_token, ipgeolocation_token, ipapi_token
+from access_tokens import gitlab_access_token, gitlab_server_address, abuseipdb_token, ipgeolocation_token, ipapi_token, hosts_to_ignore, countries_to_ignore
 
 runners_IPs = []
 runners_IPs_info = []
@@ -68,15 +68,18 @@ def get_users_IPs_abuseipdb(geolocation_choose):
 
     for IP in set(runners_IPs):
         try:
-            response = requests.request(method='GET', url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': IP, 'maxAgeInDays': '90'})
-            decodedResponse = json.loads(response.text)
-            print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['data']['countryCode'], "\033[1;94mdomain\033[1;00m:\033[1;92m", decodedResponse['data']['domain'], "\033[1;94misp\033[1;00m:\033[1;92m",  decodedResponse['data']['isp'], "\033[1;94musage_type\033[1;00m:\033[1;92m", decodedResponse['data']['usageType'], "\033[1;00m")
-            IP_to_list = IP + " country", decodedResponse['data']['countryCode'], "domain", decodedResponse['data']['domain'], "isp",  decodedResponse['data']['isp'], "usage_type", decodedResponse['data']['usageType']
-            runners_IPs_info.append(IP_to_list)
-            time.sleep(0.5)
+            response = requests.get(url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': IP, 'maxAgeInDays': '90'})
+            decodedResponse = response.json()
+            if str(decodedResponse["data"]["countryCode"]).lower() in countries_to_ignore or IP in hosts_to_ignore:
+                pass
+            else:
+                print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['data']['countryCode'], "\033[1;94mdomain\033[1;00m:\033[1;92m", decodedResponse['data']['domain'], "\033[1;94misp\033[1;00m:\033[1;92m",  decodedResponse['data']['isp'], "\033[1;94musage_type\033[1;00m:\033[1;92m", decodedResponse['data']['usageType'], "\033[1;00m")
+                IP_to_list = IP + " => " + "country: " + decodedResponse['data']['countryCode'] + " domain: " + decodedResponse['data']['domain'] + " isp: " + decodedResponse['data']['isp']+ " usage_type: " + decodedResponse['data']['usageType']
+                runners_IPs_info.append(IP_to_list)
+                time.sleep(0.5)
         except KeyError:
-            IP_to_list = IP 
-            runners_IPs_info.append(IP_to_list)
+#            IP_to_list = IP 
+#            runners_IPs_info.append(IP_to_list)
             print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
     runners_IPs_output(runners_IPs_info, geolocation_choose)
@@ -104,13 +107,16 @@ def get_users_IPs_ipgeolocation(geolocation_choose):
         try:
             response = requests.get("https://api.ipgeolocation.io/ipgeo?apiKey={0}&ip={1}".format(ipgeolocation_token, IP))
             decodedResponse = response.json()
-            print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['country_code2'], "\033[1;94mcity\033[1;00m:\033[1;92m", decodedResponse['city'], "\033[1;94mlatitude\033[1;00m:\033[1;92m", decodedResponse['latitude'], "\033[1;94mlongitude\033[1;00m:\033[1;92m",  decodedResponse['longitude'], "\033[1;94misp\033[1;00m:\033[1;92m", decodedResponse['isp'], "\033[1;00m")
-            IP_to_list = IP + " country", decodedResponse['country_code2'], "city", decodedResponse['city'], "latitude",  decodedResponse['latitude'], "longitude", decodedResponse['longitude'], "isp", decodedResponse['isp']
-            runners_IPs_info.append(IP_to_list)
-            time.sleep(0.5)
+            if str(decodedResponse["country_code2"]).lower() in countries_to_ignore or IP in hosts_to_ignore:
+                pass
+            else:
+                print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['country_code2'], "\033[1;94mcity\033[1;00m:\033[1;92m", decodedResponse['city'], "\033[1;94mlatitude\033[1;00m:\033[1;92m", decodedResponse['latitude'], "\033[1;94mlongitude\033[1;00m:\033[1;92m",  decodedResponse['longitude'], "\033[1;94misp\033[1;00m:\033[1;92m", decodedResponse['isp'], "\033[1;00m")
+                IP_to_list = IP + " => " + "country: " + decodedResponse['country_code2'] + " city: " + decodedResponse['city'] + " latitude: " + str(decodedResponse['latitude']) + " longitude: " + str(decodedResponse['longitude']) + " isp: " + decodedResponse['isp']
+                runners_IPs_info.append(IP_to_list)
+                time.sleep(0.5)
         except KeyError:
-            IP_to_list = IP 
-            runners_IPs_info.append(IP_to_list)
+#            IP_to_list = IP 
+#            runners_IPs_info.append(IP_to_list)
             print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
     runners_IPs_output(runners_IPs_info, geolocation_choose)
@@ -138,13 +144,16 @@ def get_users_IPs_ipapi(geolocation_choose):
         try:
             response = requests.get("http://api.ipapi.com/{0}?access_key={1}".format(IP, ipapi_token))
             decodedResponse = response.json()
-            print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['country_code'], "\033[1;94mcity\033[1;00m:\033[1;92m", decodedResponse['city'], "\033[1;94mlatitude\033[1;00m:\033[1;92m", decodedResponse['latitude'], "\033[1;94mlongitude\033[1;00m:\033[1;92m",  decodedResponse['longitude'], "\033[1;00m")
-            IP_to_list = IP + " country", decodedResponse['country_code'], "city", decodedResponse['city'], "latitude",  decodedResponse['latitude'], "longitude", decodedResponse['longitude']
-            runners_IPs_info.append(IP_to_list)
-            time.sleep(0.5)
+            if str(decodedResponse["country_code"]).lower() in countries_to_ignore or IP in hosts_to_ignore:
+                pass
+            else:
+                print("\033[1;90m{}\033[1;00m =>".format(IP), "\033[1;94mcountry\033[1;00m:\033[1;92m", decodedResponse['country_code'], "\033[1;94mcity\033[1;00m:\033[1;92m", decodedResponse['city'], "\033[1;94mlatitude\033[1;00m:\033[1;92m", decodedResponse['latitude'], "\033[1;94mlongitude\033[1;00m:\033[1;92m",  decodedResponse['longitude'], "\033[1;00m")
+                IP_to_list = IP + " => " + "country: " + decodedResponse['country_code'] + " city: " + decodedResponse['city'] + " latitude: " + str(decodedResponse['latitude']) + " longitude: " + str(decodedResponse['longitude'])
+                runners_IPs_info.append(IP_to_list)
+                time.sleep(0.5)
         except KeyError:
-            IP_to_list = IP 
-            runners_IPs_info.append(IP_to_list)
+#            IP_to_list = IP 
+#            runners_IPs_info.append(IP_to_list)
             print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
     runners_IPs_output(runners_IPs_info, geolocation_choose)
