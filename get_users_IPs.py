@@ -2,7 +2,6 @@ import requests
 from requests.exceptions import InvalidURL, MissingSchema, ConnectionError
 import os
 import sys
-import json
 import time
 from access_tokens import gitlab_access_token, gitlab_server_address, abuseipdb_token, ipgeolocation_token, ipapi_token, hosts_to_ignore, countries_to_ignore
 
@@ -85,8 +84,8 @@ def get_users_IPs_ipgeolocation(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5}\033[1;00m \033[1;94misp\033[1;00m:\033[1;92m {6}\033[1;00m \033[1;94musername\033[1;00m:\033[1;92m {7} \033[1;94mcurrent_sign_in_at\033[1;00m:\033[1;92m {8} \033[1;00m]".format(item, user_current_sign_in_ip, decodedResponse['country_code2'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], decodedResponse['isp'], user_username, user_current_sign_in_at))
             except KeyError:
-                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
-                items_to_print.append(item_to_list)
+#                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
+#                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -127,8 +126,8 @@ def get_users_IPs_ipgeolocation(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5}\033[1;00m \033[1;94misp\033[1;00m:\033[1;92m {6}\033[1;00m \033[1;94musername\033[1;00m:\033[1;92m {7} \033[1;94mcurrent_sign_in_at\033[1;00m:\033[1;92m {8} \033[1;00m]".format(item, user_current_sign_in_ip, decodedResponse['country_code2'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], decodedResponse['isp'], user_username, user_current_sign_in_at))
             except KeyError:
-                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
-                items_to_print.append(item_to_list)
+#                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
+#                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -161,17 +160,17 @@ def get_users_IPs_abuseipdb(users_status, geolocation_choose):
                 user_username = IPs["username"]
                 user_current_sign_in_at = IPs["current_sign_in_at"]
                 user_current_sign_in_ip = IPs["current_sign_in_ip"]
-                response = requests.request(method='GET', url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': user_current_sign_in_ip, 'maxAgeInDays': '90'})
-                decodedResponse = json.loads(response.text)
-                if str(decodedResponse["countryCode"]).lower() in countries_to_ignore or str(user_current_sign_in_ip) in hosts_to_ignore:
+                response = requests.get(url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': user_current_sign_in_ip, 'maxAgeInDays': '90'})
+                decodedResponse = response.json()
+                if str(decodedResponse["data"]["countryCode"]).lower() in countries_to_ignore or str(user_current_sign_in_ip) in hosts_to_ignore:
                     pass
                 else:
                     item_to_list = ("user_id: {0} => {1} [country: {2} domain: {3} isp: {4} usage_type: {5} username: {6} current_sign_in_at: {7}]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
                     items_to_print.append(item_to_list)
-                    print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7} \033[1;00m ]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
+                    print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7} \033[1;00m]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
             except KeyError:
-                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-                items_to_print.append(item_to_list)
+#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+#                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -203,17 +202,17 @@ def get_users_IPs_abuseipdb(users_status, geolocation_choose):
                 user_current_sign_in_ip = IPs["current_sign_in_ip"]
                 user_username = IPs["username"]
                 user_current_sign_in_at = IPs["current_sign_in_at"]
-                response = requests.request(method='GET', url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': user_current_sign_in_ip, 'maxAgeInDays': '90'})
-                decodedResponse = json.loads(response.text)
-                if str(decodedResponse["countryCode"]).lower() in countries_to_ignore or str(user_current_sign_in_ip) in hosts_to_ignore:
+                response = requests.get(url='https://api.abuseipdb.com/api/v2/check', headers={'Accept': 'application/json', 'Key': abuseipdb_token}, params={'ipAddress': user_current_sign_in_ip, 'maxAgeInDays': '90'})
+                decodedResponse = response.json()
+                if str(decodedResponse["data"]["countryCode"]).lower() in countries_to_ignore or str(user_current_sign_in_ip) in hosts_to_ignore:
                     pass
                 else:
                     item_to_list = ("user_id: {0} => {1} [country: {2} domain: {3} isp: {4} usage_type: {5} username: {6} current_sign_in_at: {7}]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
                     items_to_print.append(item_to_list)
-                    print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7} \033[1;00m ]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
+                    print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7} \033[1;00m]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
             except KeyError:
-                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-                items_to_print.append(item_to_list)
+#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+#                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -255,8 +254,8 @@ def get_users_IPs_ipapi(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7}\033[1;00m ]".format(item, IPs["current_sign_in_ip"], decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], user_username, user_current_sign_in_at))
             except KeyError:
-                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-                items_to_print.append(item_to_list)
+#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+#                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -297,8 +296,8 @@ def get_users_IPs_ipapi(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7}\033[1;00m ]".format(item, user_current_sign_in_ip, decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], user_username, user_current_sign_in_at))
             except KeyError:
-                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-                items_to_print.append(item_to_list)
+#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+#                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
