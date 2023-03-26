@@ -85,8 +85,8 @@ def get_users_IPs_ipgeolocation(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5}\033[1;00m \033[1;94misp\033[1;00m:\033[1;92m {6}\033[1;00m \033[1;94musername\033[1;00m:\033[1;92m {7} \033[1;94mcurrent_sign_in_at\033[1;00m:\033[1;92m {8} \033[1;00m]".format(item, user_current_sign_in_ip, decodedResponse['country_code2'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], decodedResponse['isp'], user_username, user_current_sign_in_at))
             except KeyError:
-#                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
-#                items_to_print.append(item_to_list)
+                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
+                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -127,8 +127,8 @@ def get_users_IPs_ipgeolocation(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5}\033[1;00m \033[1;94misp\033[1;00m:\033[1;92m {6}\033[1;00m \033[1;94musername\033[1;00m:\033[1;92m {7} \033[1;94mcurrent_sign_in_at\033[1;00m:\033[1;92m {8} \033[1;00m]".format(item, user_current_sign_in_ip, decodedResponse['country_code2'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], decodedResponse['isp'], user_username, user_current_sign_in_at))
             except KeyError:
-#                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
-#                items_to_print.append(item_to_list)
+                item_to_list = ("user_id: {0} => {1}".format(item, user_current_sign_in_ip))
+                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -170,8 +170,8 @@ def get_users_IPs_abuseipdb(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7} \033[1;00m ]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
             except KeyError:
-#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-#                items_to_print.append(item_to_list)
+                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -212,8 +212,8 @@ def get_users_IPs_abuseipdb(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mdomain\033[1;00m: \033[1;92m{3} \033[1;94misp\033[1;00m: \033[1;92m{4} \033[1;94musage_type\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7} \033[1;00m ]".format(item, user_current_sign_in_ip, decodedResponse['data']['countryCode'], decodedResponse['data']['domain'], decodedResponse['data']['isp'], decodedResponse['data']['usageType'], user_username, user_current_sign_in_at))
             except KeyError:
-#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-#                items_to_print.append(item_to_list)
+                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -255,8 +255,8 @@ def get_users_IPs_ipapi(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7}\033[1;00m ]".format(item, IPs["current_sign_in_ip"], decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], user_username, user_current_sign_in_at))
             except KeyError:
-#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-#                items_to_print.append(item_to_list)
+                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
@@ -297,8 +297,8 @@ def get_users_IPs_ipapi(users_status, geolocation_choose):
                     items_to_print.append(item_to_list)
                     print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1} \033[1;00m[ \033[1;94mcountry\033[1;00m:\033[1;92m {2} \033[1;94mcity\033[1;00m: \033[1;92m{3} \033[1;94mlatitude\033[1;00m: \033[1;92m{4} \033[1;94mlongitude\033[1;00m: \033[1;92m{5} \033[1;94musername\033[1;00m: \033[1;92m{6} \033[1;94mcurrent_sign_in_at\033[1;00m: \033[1;92m{7}\033[1;00m ]".format(item, user_current_sign_in_ip, decodedResponse['country_code'], decodedResponse['city'], decodedResponse['latitude'], decodedResponse['longitude'], user_username, user_current_sign_in_at))
             except KeyError:
-#                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
-#                items_to_print.append(item_to_list)
+                item_to_list = ("user_id: {0} => {1}".format(item, IPs["current_sign_in_ip"]))
+                items_to_print.append(item_to_list)
                 print("\033[1;94muser_id\033[1;00m: \033[1;92m{0}\033[1;00m => \033[1;90m{1}\033[1;00m".format(item, user_current_sign_in_ip))
 
         users_IPs_output(users_status, items_to_print, geolocation_choose)
