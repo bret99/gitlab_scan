@@ -44,16 +44,18 @@ def get_search():
                 for item in set(users_list_to_print):
                     print(item)
             
-                if not os.path.exists("{}/reports".format(os.getcwd())):
-                    os.mkdir("{}/reports".format(os.getcwd()))
-                with open("{}/reports/search_users_info.txt".format(os.getcwd()), 'a') as output:
-                    output.write('SEARCH USERS {} INFO => \n'.format(search_target))
-                    for row in set(users_list):
-                        output.write(str(row) + '\n')
-
-                print("\nUsers amount is \033[1;94m{0}\033[1;00m".format(len(set(users_list))))
-                print("\nOne can find results in \033[1;95m{}/reports/search_users_info.txt\033[1;00m\n".format(os.getcwd()))
-
+                if len(users_list) == 0:
+                    print("\nUsers amount is \033[1;94m{0}\033[1;00m".format(len(set(users_list))))
+                else:
+                    if not os.path.exists("{}/reports".format(os.getcwd())):
+                        os.mkdir("{}/reports".format(os.getcwd()))
+                    with open("{}/reports/search_users_info.txt".format(os.getcwd()), 'a') as output:
+                        output.write('SEARCH USERS {} INFO => \n'.format(search_target))
+                        for row in set(users_list):
+                            output.write(str(row) + '\n')
+                    print("\nUsers amount is \033[1;94m{0}\033[1;00m".format(len(set(users_list))))
+                    print("\nOne can find results in \033[1;95m{}/reports/search_users_info.txt\033[1;00m\n".format(os.getcwd()))
+                
             elif search_scope == "projects":
                 print("\033[1;90m\nCollecting data...\033[1;00m")
                 print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
@@ -79,15 +81,17 @@ def get_search():
                 for item in set(projects_list_to_print):
                     print(item)
             
-                if not os.path.exists("{}/reports".format(os.getcwd())):
-                    os.mkdir("{}/reports".format(os.getcwd()))
-                with open("{}/reports/search_projects_info.txt".format(os.getcwd()), 'a') as output:
-                    output.write('SEARCH PROJECTS {} INFO => \n'.format(search_target))
-                    for row in set(projects_list):
-                        output.write(str(row) + '\n')
-
-                print("\nProjects amount is \033[1;94m{0}\033[1;00m".format(len(set(projects_list))))
-                print("\nOne can find results in \033[1;95m{}/reports/search_projects_info.txt\033[1;00m\n".format(os.getcwd()))
+                if len(projects_list) == 0:
+                    print("\nProjects amount is \033[1;94m{0}\033[1;00m".format(len(set(users_list))))
+                else:
+                    if not os.path.exists("{}/reports".format(os.getcwd())):
+                        os.mkdir("{}/reports".format(os.getcwd()))
+                    with open("{}/reports/search_projects_info.txt".format(os.getcwd()), 'a') as output:
+                        output.write('SEARCH PROJECTS {} INFO => \n'.format(search_target))
+                        for row in set(projects_list):
+                            output.write(str(row) + '\n')
+                    print("\nProjects amount is \033[1;94m{0}\033[1;00m".format(len(set(projects_list))))
+                    print("\nOne can find results in \033[1;95m{}/reports/search_projects_info.txt\033[1;00m\n".format(os.getcwd()))
                 
     except (InvalidURL, MissingSchema):
         print(" \033[1;93mCheck one's Gitlab server link in access_tokens.py is correct\033[1;00m")
@@ -98,3 +102,4 @@ def get_search():
         print("\033[1;93mCheck network connection or Gitlab server status!\033[1;00m")
     except KeyboardInterrupt:
         pass
+
