@@ -81,8 +81,8 @@ def get_users_IPs_abuseipdb(geolocation_choose):
                     runners_IPs_info.append(IP_to_list)
                     time.sleep(0.5)
         except KeyError:
-#            IP_to_list = IP 
-#            runners_IPs_info.append(IP_to_list)
+            IP_to_list = IP 
+            runners_IPs_info.append(IP_to_list)
             print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
     runners_IPs_output(runners_IPs_info, geolocation_choose)
@@ -121,8 +121,8 @@ def get_users_IPs_ipgeolocation(geolocation_choose):
                     runners_IPs_info.append(IP_to_list)
                     time.sleep(0.5)
         except KeyError:
-#            IP_to_list = IP 
-#            runners_IPs_info.append(IP_to_list)
+            IP_to_list = IP 
+            runners_IPs_info.append(IP_to_list)
             print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
     runners_IPs_output(runners_IPs_info, geolocation_choose)
@@ -161,8 +161,8 @@ def get_users_IPs_ipapi(geolocation_choose):
                     runners_IPs_info.append(IP_to_list)
                     time.sleep(0.5)
         except KeyError:
-#            IP_to_list = IP 
-#            runners_IPs_info.append(IP_to_list)
+            IP_to_list = IP 
+            runners_IPs_info.append(IP_to_list)
             print("\033[1;94m{}\033[1;00m".format(IP), "\033[1;00m")
 
     runners_IPs_output(runners_IPs_info, geolocation_choose)
