@@ -29,7 +29,7 @@ def main_menu():
             get_user_info()
             main_menu()
         elif choose_module == "3":
-            get_user_info()
+            get_user_events()
             main_menu()
         elif choose_module == "4":
             get_users_IPs()
