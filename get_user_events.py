@@ -27,6 +27,7 @@ def get_user_events():
         if date_after == "":
             date_after = str(date.today())
         print("\033[1;90m\nCollecting data...\033[1;00m")
+        print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
         page_counter = 0
         while 1:
             target_user = requests.get("{0}/api/v4/users/{1}/events?after={2}&before={3}&per_page=100&page={4}".format(gitlab_server_address, user_id, date_after, date_before, page_counter), headers=headers)
