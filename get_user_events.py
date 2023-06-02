@@ -20,12 +20,10 @@ def get_user_events():
         sys.exit()
     try:
         user_id = input("Enter user ID: ")
-        date_after = input("Enter the date (\033[1;93mYYYY\033[1;00m-\033[1;93mMM\033[1;00m-\033[1;93mDD\033[1;00m) after which one should count events [press <\033[1;93mEnter\033[1;00m> for now]: ")
+        date_after = input("Enter the date (\033[1;93mYYYY\033[1;00m-\033[1;93mMM\033[1;00m-\033[1;93mDD\033[1;00m) after which one should count events: ")
         date_before = input("Enter the date (\033[1;93mYYYY\033[1;00m-\033[1;93mMM\033[1;00m-\033[1;93mDD\033[1;00m) before which one should count events [press <\033[1;93mEnter\033[1;00m> for now]: ")
         if date_before == "":
             date_before = str(date.today())
-        if date_after == "":
-            date_after = str(date.today())
         print("\033[1;90m\nCollecting data...\033[1;00m")
         print("\033[1;90mThis may take some time. Be patient..\033[1;00m\n")
         page_counter = 0
