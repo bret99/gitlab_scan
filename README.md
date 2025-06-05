@@ -7,4 +7,6 @@ To get geolocation data [users, runners] one should get access tokens in https:/
 
 It is possible for modules 4 and 16 to ignore hosts and countries determined in access_tokens.py.
 
-Run command: python3 gitlab_scan.py
+Run command:
+```
+python3 gitlab_scan.py
